@@ -180,7 +180,7 @@ class NiChannelIrcGateway < Net::IRC::Server::Session
 	end
 
 	def priv_line(channel, line)
-		post "%d{%s}" % [line.n, line.id], PRIVMSG, channel, line.aa?? encode_aa(line.body) : line.body
+		post "%d{%s}" % [line.n, line.id], PRIVMSG, channel, line.aa?? "AA: #{encode_aa(line.body)}" : line.body
 	end
 
 	def encode_aa(aa)
