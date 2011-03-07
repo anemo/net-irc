@@ -56,7 +56,7 @@ class NiChannelIrcGateway < Net::IRC::Server::Session
 			@channels[channel] = {
 				:topic    => "",
 				:dat      => nil,
-				:interval => nil,
+				:interval => 60,
 				:observer => nil,
 			} unless @channels.key?(channel)
 			post @prefix, JOIN, channel
