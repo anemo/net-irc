@@ -164,7 +164,14 @@ class NiChannelIrcGateway < Net::IRC::Server::Session
 
 					if info[:dat].length >= 1000
 						post server_name, NOTICE, channel, "Thread is over 1000. Guessing next thread..."
-						guess_next_thread(channel)
+						threads = guess_next_thread(channel)
+
+						Thread.start(info, channel, threads) do |info, channel, threads|
+							Thread.pass
+							topic = "#{threads.first[:uri]} #{info[:interval]}"
+							cmd = Net::IRC::Message.new(server_name, TOPIC, [channel, topic])
+							on_topic(cmd)
+						end
 						break
 					end
 				rescue UnknownThread
